@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.NIOFileAPITest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-23T05:53:30" hostname="aswin-laptop" time="0.042">
+<testsuite name="com.bridgelabz.NIOFileAPITest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-23T07:47:55" hostname="aswin-laptop" time="0.025">
   <properties/>
-  <testcase name="givenPathWhenCheckedThenConfirm" classname="com.bridgelabz.NIOFileAPITest" time="0.042"/>
-  <system-out><![CDATA[/home/aswin/TempPlayGround/temp7
-/home/aswin/TempPlayGround/temp3
-/home/aswin/TempPlayGround/temp4
-/home/aswin/TempPlayGround/temp2
-/home/aswin/TempPlayGround/temp6
-/home/aswin/TempPlayGround/temp9
-/home/aswin/TempPlayGround/temp5
-/home/aswin/TempPlayGround/temp8
-/home/aswin/TempPlayGround/temp1
-/home/aswin/TempPlayGround/temp7
-/home/aswin/TempPlayGround/temp3
-/home/aswin/TempPlayGround/temp4
-/home/aswin/TempPlayGround/temp2
-/home/aswin/TempPlayGround/temp6
-/home/aswin/TempPlayGround/temp9
-/home/aswin/TempPlayGround/temp5
-/home/aswin/TempPlayGround/temp8
-/home/aswin/TempPlayGround/temp1
-]]></system-out>
+  <testcase name="given3EmployeeWhenWrittenToFileShouldMatchEmployeeEntries" classname="com.bridgelabz.NIOFileAPITest" time="0.025"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
