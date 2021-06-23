@@ -63,5 +63,8 @@ public class NIOFileAPITest {
         EmployeePayRollService employeePayRollService;
         employeePayRollService = new EmployeePayRollService(Arrays.asList(arrayOfEmps));
         employeePayRollService.writeEmployeePayRollData(EmployeePayRollService.IoService.FILE_IO);
+        employeePayRollService.printData(EmployeePayRollService.IoService.FILE_IO);
+        long entries = employeePayRollService.countEntries(EmployeePayRollService.IoService.FILE_IO);
+        Assert.assertEquals(3, entries);
     }
 }

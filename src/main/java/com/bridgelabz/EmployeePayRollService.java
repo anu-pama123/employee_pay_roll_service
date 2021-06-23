@@ -46,12 +46,15 @@ public class EmployeePayRollService {
 //            this.employeePayRollList = new EmployeePayRollService().readdata();
 //            return employeePayRollList.size();
 //    }
-//
-//    public void printData(IoService ioService){
-//
-//    }
-//
-//    public long countEntries (IoService ioService) {
-//
-//    }
+
+    public void printData(IoService ioService){
+        if (ioService.equals(IoService.FILE_IO))
+            new EmployeePayRollFileIOService().printData();
+    }
+
+    public long countEntries (IoService ioService) {
+        if (ioService.equals(IoService.FILE_IO))
+            return new EmployeePayRollFileIOService().countEntries();
+            return 0;
+    }
 }
