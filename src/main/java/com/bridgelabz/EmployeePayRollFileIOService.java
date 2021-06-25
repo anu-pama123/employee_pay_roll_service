@@ -1,10 +1,9 @@
 package com.bridgelabz;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
 
 public class EmployeePayRollFileIOService {
 
@@ -41,4 +40,28 @@ public class EmployeePayRollFileIOService {
         }
         return entries;
     }
+
+    public List<EmployeePayRollData> readData() {
+        List<EmployeePayRollData> employeePayRollList = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        try {
+            Files.lines(new File(PAY_ROLL_FILE_NAME).toPath()).map(line -> line.trim()).forEach(line -> temp.add(line));
+            Iterator itr = temp.iterator();
+            while (itr.hasNext()){
+                String i = (String)itr.next();
+                String[] key_value_pairs = i.substring(i.indexOf('{')+1, i.indexOf('}')).split(",");
+                Map<String, String> map = new HashMap<>();
+                for (String pair : key_value_pairs) {
+                    String[] entry = pair.split("=");
+                    map.put(entry[0].trim(), entry[1].trim());
+                }
+                EmployeePayRollData emp = new EmployeePayRollData(Integer.parseInt(map.get("id")), map.get("name"), Double.parseDouble(map.get("salary")));
+                employeePayRollList.add(emp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return employeePayRollList;
+    }
 }
+

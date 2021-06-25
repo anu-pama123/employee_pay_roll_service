@@ -52,19 +52,4 @@ public class NIOFileAPITest {
         Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
         new Java8WatchServiceExample(dir).processEvents();
     }
-
-    @Test
-    public void given3EmployeeWhenWrittenToFileShouldMatchEmployeeEntries() {
-        EmployeePayRollData[] arrayOfEmps = {
-                new EmployeePayRollData(1, "Jeff Bezos", 10000.0),
-                new EmployeePayRollData(2, "Bill Gates", 20000.0),
-                new EmployeePayRollData(3, "Mark Zuckerberg", 30000.0)
-        };
-        EmployeePayRollService employeePayRollService;
-        employeePayRollService = new EmployeePayRollService(Arrays.asList(arrayOfEmps));
-        employeePayRollService.writeEmployeePayRollData(EmployeePayRollService.IoService.FILE_IO);
-        employeePayRollService.printData(EmployeePayRollService.IoService.FILE_IO);
-        long entries = employeePayRollService.countEntries(EmployeePayRollService.IoService.FILE_IO);
-        Assert.assertEquals(3, entries);
-    }
 }
