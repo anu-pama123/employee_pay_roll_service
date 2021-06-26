@@ -49,14 +49,14 @@ public class EmployeePayRollFileIOService {
             Iterator itr = temp.iterator();
             while (itr.hasNext()){
                 String i = (String)itr.next();
-                String[] key_value_pairs = i.substring(i.indexOf('{')+1, i.indexOf('}')).split(",");
+                String[] keyValuePairs = i.substring(i.indexOf('{')+1, i.indexOf('}')).split(",");
                 Map<String, String> map = new HashMap<>();
-                for (String pair : key_value_pairs) {
+                for (String pair : keyValuePairs) {
                     String[] entry = pair.split("=");
                     map.put(entry[0].trim(), entry[1].trim());
                 }
-                EmployeePayRollData emp = new EmployeePayRollData(Integer.parseInt(map.get("id")), map.get("name"), Double.parseDouble(map.get("salary")));
-                employeePayRollList.add(emp);
+                EmployeePayRollData employeeData = new EmployeePayRollData(Integer.parseInt(map.get("id")), map.get("name"), Double.parseDouble(map.get("salary")));
+                employeePayRollList.add(employeeData);
             }
         } catch (IOException e) {
             e.printStackTrace();

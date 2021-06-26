@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class EmployeePayRollServiceTest {
     @Test
@@ -26,5 +27,12 @@ public class EmployeePayRollServiceTest {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService();
         long entries = employeePayRollService.readEmployeePayRollData(EmployeePayRollService.IoService.FILE_IO);
         Assert.assertEquals(3, entries);
+    }
+
+    @Test
+    public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
+        EmployeePayRollService employeePayRollService = new EmployeePayRollService();
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.read2EmployeePayRollData(EmployeePayRollService.IoService.DB_IO);
+        Assert.assertEquals(3,employeePayRollData.size());
     }
 }

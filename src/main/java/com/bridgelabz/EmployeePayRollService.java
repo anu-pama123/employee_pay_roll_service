@@ -54,6 +54,12 @@ public class EmployeePayRollService {
             return 0;
     }
 
+    public List<EmployeePayRollData> read2EmployeePayRollData(IoService ioService) {
+        if (ioService.equals(IoService.DB_IO))
+            this.employeePayRollList = new  EmployeePayrollDBService().readData();
+        return employeePayRollList;
+    }
+
     public long readEmployeePayRollData (IoService ioService) {
         List<EmployeePayRollData> employeePayRollList = new EmployeePayRollFileIOService().readData();
         return employeePayRollList.size();
