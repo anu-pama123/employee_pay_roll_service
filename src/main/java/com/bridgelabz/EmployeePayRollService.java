@@ -1,6 +1,5 @@
 package com.bridgelabz;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,10 +8,14 @@ public class EmployeePayRollService {
 
     public enum IoService {CONSOLE_IO, FILE_IO, DB_IO, REST_IO}
     private List<EmployeePayRollData> employeePayRollList;
+    private EmployeePayRollDBService employeePayRollDBService;
 
-    public EmployeePayRollService() {}
+    public EmployeePayRollService() {
+        employeePayRollDBService = EmployeePayRollDBService.getInstance();
+    }
 
     public EmployeePayRollService(List<EmployeePayRollData>employeePayRollList) {
+        this();
         this.employeePayRollList = employeePayRollList;
     }
 
@@ -35,6 +38,31 @@ public class EmployeePayRollService {
         employeePayRollList.add(empObj);
     }
 
+    public List<EmployeePayRollData> read2EmployeePayRollData(IoService ioService) {
+        if (ioService.equals(IoService.DB_IO))
+            this.employeePayRollList = employeePayRollDBService.readData();
+        return employeePayRollList;
+    }
+
+    public boolean checkEmployeePayRollInSyncWithDB(String name) {
+        List<EmployeePayRollData> employeePayrolldataList = employeePayRollDBService.getEmployeePayRollData(name);
+        return employeePayrolldataList.get(0).equals(getEmployeePayRollData(name));
+    }
+
+    public void updateEmployeeSalary(String name, double salary) {
+        int result = employeePayRollDBService.updateEmployeeData(name, salary);
+        if (result == 0) return;
+        EmployeePayRollData employeePayRollData = this.getEmployeePayRollData(name);
+        if(employeePayRollData != null) employeePayRollData.salary = salary;
+    }
+
+    private EmployeePayRollData getEmployeePayRollData(String name) {
+        return this.employeePayRollList.stream()
+                   .filter(employeePayRollDataItem -> employeePayRollDataItem.name.equals(name))
+                   .findFirst()
+                   .orElse(null);
+    }
+
     public void writeEmployeePayRollData(IoService IoService) {
         if (IoService.equals(IoService.CONSOLE_IO))
             System.out.println("\nwriting employee payroll roaster to console\n" + employeePayRollList);
@@ -52,12 +80,6 @@ public class EmployeePayRollService {
         if (ioService.equals(IoService.FILE_IO))
             return new EmployeePayRollFileIOService().countEntries();
             return 0;
-    }
-
-    public List<EmployeePayRollData> read2EmployeePayRollData(IoService ioService) {
-        if (ioService.equals(IoService.DB_IO))
-            this.employeePayRollList = new  EmployeePayrollDBService().readData();
-        return employeePayRollList;
     }
 
     public long readEmployeePayRollData (IoService ioService) {
