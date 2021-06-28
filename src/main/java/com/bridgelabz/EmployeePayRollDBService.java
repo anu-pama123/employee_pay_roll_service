@@ -3,7 +3,9 @@ package com.bridgelabz;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayRollDBService {
     private PreparedStatement employeePayRollDataStatement;
@@ -16,12 +18,53 @@ public class EmployeePayRollDBService {
         return employeePayRollDBService;
     }
 
+    public List<EmployeePayRollData> readData() {
+        String sql = "SELECT * FROM employee_pay_roll";
+        return this.getEmployeePayRollDataUsingDB(sql);
+    }
+
+    public List<EmployeePayRollData> getEmployeePayRollForDateRange(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format("SELECT * FR0M employee_pay_roll WHERE START BETWEEN '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+        return this.getEmployeePayRollDataUsingDB(sql);
+    }
+
+    public Map<String, Double> getAverageSalaryByGender() {
+        String sql = "SELECT gender, AVG(salary) as avg_salary FROM employee_pay_roll GROUP by gender;";
+        Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+        try(Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                double salary = resultSet.getDouble("avg_salary");
+                genderToAverageSalaryMap.put(gender, salary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToAverageSalaryMap;
+    }
+
+    public List<EmployeePayRollData> getEmployeePayRollDataUsingDB(String sql) {
+        List<EmployeePayRollData> employeePayRollList = new ArrayList<>();
+        try (Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet =  statement.executeQuery(sql);
+            employeePayRollList = this.getEmployeePayRollData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+ //       System.out.println(employeePayRollList);
+        return employeePayRollList;
+    }
+
     public List<EmployeePayRollData> getEmployeePayRollData(String name) {
         List<EmployeePayRollData> employeePayRollList = null;
         if (this.employeePayRollDataStatement == null)
             this.prepareStatementForEmployeeData();
         try {
-            employeePayRollDataStatement.setString(1, name);
+  //          employeePayRollDataStatement.setString(1, name);
+            System.out.println(employeePayRollDataStatement);
             ResultSet resultSet = employeePayRollDataStatement.executeQuery();
             employeePayRollList = this.getEmployeePayRollData(resultSet);
         } catch (SQLException e) {
@@ -60,25 +103,11 @@ public class EmployeePayRollDBService {
     private void prepareStatementForEmployeeData() {
         try {
             Connection connection = this.getConnection();
-            String sql = "SELECT * FR0M employee_pay_roll WHERE name = ?";
+            String sql = "SELECT * FR0M employee_pay_roll WHERE name = 'Terisa' ";
             employeePayRollDataStatement =connection.prepareStatement(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public List<EmployeePayRollData> readData() {
-        String sql = "SELECT * FROM employee_pay_roll";
-        List<EmployeePayRollData> employeePayRollList = new ArrayList<>();
-        try (Connection connection = this.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery(sql);
-           employeePayRollList = this.getEmployeePayRollData(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(employeePayRollList);
-        return employeePayRollList;
     }
 
     public int updateEmployeeData(String name, double salary) {

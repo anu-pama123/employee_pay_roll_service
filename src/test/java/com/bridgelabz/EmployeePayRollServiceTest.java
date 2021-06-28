@@ -3,8 +3,10 @@ package com.bridgelabz;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayRollServiceTest {
     @Test
@@ -32,16 +34,26 @@ public class EmployeePayRollServiceTest {
     @Test
     public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService();
-        List<EmployeePayRollData>employeePayRollData = employeePayRollService.read2EmployeePayRollData(EmployeePayRollService.IoService.DB_IO);
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
         Assert.assertEquals(3,employeePayRollData.size());
     }
 
     @Test
     public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService();
-        List<EmployeePayRollData>employeePayRollData = employeePayRollService.read2EmployeePayRollData(EmployeePayRollService.IoService.DB_IO);
-        employeePayRollService.updateEmployeeSalary("Terisa", 900000);
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        employeePayRollService.updateEmployeeSalary("Terisa", 400000);
         boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Terisa");
         Assert.assertTrue(result);
+    }
+
+    @Test
+    public void givenDateRangeWhenRetrievedShouldMatchEmployeeCount() {
+        EmployeePayRollService employeePayRollService = new EmployeePayRollService();
+        employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        LocalDate startDate = LocalDate.of(2018, 01, 01);
+        LocalDate endDate = LocalDate.now();
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayrollForDateRange(EmployeePayRollService.IoService.DB_IO, startDate, endDate);
+        Assert.assertEquals(3, EmployeePayRollData.size);
     }
 }

@@ -1,7 +1,9 @@
 package com.bridgelabz;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayRollService {
@@ -38,7 +40,7 @@ public class EmployeePayRollService {
         employeePayRollList.add(empObj);
     }
 
-    public List<EmployeePayRollData> read2EmployeePayRollData(IoService ioService) {
+    public List<EmployeePayRollData> readEmployeePayRollDatas(IoService ioService) {
         if (ioService.equals(IoService.DB_IO))
             this.employeePayRollList = employeePayRollDBService.readData();
         return employeePayRollList;
@@ -61,6 +63,18 @@ public class EmployeePayRollService {
                    .filter(employeePayRollDataItem -> employeePayRollDataItem.name.equals(name))
                    .findFirst()
                    .orElse(null);
+    }
+
+    public List<EmployeePayRollData> readEmployeePayrollForDateRange(IoService ioService, LocalDate startDate, LocalDate endDate) {
+        if (ioService.equals(IoService.DB_IO))
+        return employeePayRollDBService.getEmployeePayRollForDateRange(startDate, endDate);
+        return null;
+    }
+
+    public Map<String, Double> readAverageSalaryByGender(IoService ioService) {
+        if (ioService.equals(IoService.DB_IO))
+            return employeePayRollDBService.getAverageSalaryByGender();
+        return null;
     }
 
     public void writeEmployeePayRollData(IoService IoService) {
