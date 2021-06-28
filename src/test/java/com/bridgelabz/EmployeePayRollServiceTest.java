@@ -56,4 +56,11 @@ public class EmployeePayRollServiceTest {
         List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayrollForDateRange(EmployeePayRollService.IoService.DB_IO, startDate, endDate);
         Assert.assertEquals(3, EmployeePayRollData.size);
     }
+    @Test
+    public void givenPayRollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() {
+        EmployeePayRollService employeePayRollService = new EmployeePayRollService();
+        employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        Map<String, Double> averageSalaryByGender = employeePayRollService.readAverageSalaryByGender(EmployeePayRollService.IoService.DB_IO);
+        Assert.assertTrue(averageSalaryByGender.get("M").equals(200000.00) && averageSalaryByGender.get("F").equals(400000.00));
+    }
 }
