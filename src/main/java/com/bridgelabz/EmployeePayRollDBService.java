@@ -24,7 +24,7 @@ public class EmployeePayRollDBService {
     }
 
     public List<EmployeePayRollData> getEmployeePayRollForDateRange(LocalDate startDate, LocalDate endDate) {
-        String sql = String.format("SELECT * FR0M employee_pay_roll WHERE START BETWEEN '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+        String sql = String.format("select*from employee_pay_roll where start between'%s'and'%s';", Date.valueOf(startDate), Date.valueOf(endDate));
         return this.getEmployeePayRollDataUsingDB(sql);
     }
 
@@ -54,7 +54,6 @@ public class EmployeePayRollDBService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
- //       System.out.println(employeePayRollList);
         return employeePayRollList;
     }
 
@@ -63,9 +62,10 @@ public class EmployeePayRollDBService {
         if (this.employeePayRollDataStatement == null)
             this.prepareStatementForEmployeeData();
         try {
-  //          employeePayRollDataStatement.setString(1, name);
+            employeePayRollDataStatement.setString(1, name);
             System.out.println(employeePayRollDataStatement);
             ResultSet resultSet = employeePayRollDataStatement.executeQuery();
+            System.out.println(resultSet);
             employeePayRollList = this.getEmployeePayRollData(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,7 +103,7 @@ public class EmployeePayRollDBService {
     private void prepareStatementForEmployeeData() {
         try {
             Connection connection = this.getConnection();
-            String sql = "SELECT * FR0M employee_pay_roll WHERE name = 'Terisa' ";
+            String sql = "select*from employee_pay_roll where name=?";
             employeePayRollDataStatement =connection.prepareStatement(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,7 +115,7 @@ public class EmployeePayRollDBService {
     }
 
     private int updateEmployeeDataUsingStatement(String name, double salary) {
-        String sql = String.format("update employee_pay_roll set salary = %.2f where name = '%s';", salary, name);
+      String sql = String.format("update employee_pay_roll set salary = %.2f where name = '%s';", salary, name);
         try (Connection connection = this.getConnection()) {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(sql);
@@ -123,5 +123,25 @@ public class EmployeePayRollDBService {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public EmployeePayRollData addEmployeeToPayRoll(String name, double salary, LocalDate start, String gender) {
+        int employeeId = -1;
+        EmployeePayRollData employeePayRollData = null;
+        String sql = String.format("INSERT INTO employee_pay_roll (name, gender, salary, start) " +
+                                   "VALUES ( '%s', '%s', '%s', '%s' )", name, gender, salary, Date.valueOf(start));
+        try(Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+            if (rowAffected == 1) {
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) employeeId = resultSet.getInt(1);
+            }
+            employeePayRollData = new EmployeePayRollData(employeeId, name, salary, start);
+            System.out.println("++++++++"+employeePayRollData);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employeePayRollData;
     }
 }

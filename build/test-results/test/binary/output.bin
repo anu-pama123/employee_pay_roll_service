@@ -1,4 +1,9 @@
 OConnecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
 DConnection is successful..com.mysql.cj.jdbc.ConnectionImpl@1ace57ae
 OConnecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
-CConnection is successful..com.mysql.cj.jdbc.ConnectionImpl@43fa642
+DConnection is successful..com.mysql.cj.jdbc.ConnectionImpl@2144d7fc
+R++++++++EmployeePayRollData{id=5, name='Mark', salary=500000.0, start=2021-06-29}
+OConnecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
+DConnection is successful..com.mysql.cj.jdbc.ConnectionImpl@4230d661
+[com.mysql.cj.jdbc.ClientPreparedStatement: select*from employee_pay_roll where name='Mark'
+0com.mysql.cj.jdbc.result.ResultSetImpl@2c011a00

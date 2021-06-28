@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayRollService {
-
     public enum IoService {CONSOLE_IO, FILE_IO, DB_IO, REST_IO}
     private List<EmployeePayRollData> employeePayRollList;
     private EmployeePayRollDBService employeePayRollDBService;
@@ -75,6 +74,10 @@ public class EmployeePayRollService {
         if (ioService.equals(IoService.DB_IO))
             return employeePayRollDBService.getAverageSalaryByGender();
         return null;
+    }
+
+    public void addEmployeeToPayRoll(String name, double salary, LocalDate start, String gender) {
+        employeePayRollList.add(employeePayRollDBService.addEmployeeToPayRoll(name, salary, start, gender));
     }
 
     public void writeEmployeePayRollData(IoService IoService) {

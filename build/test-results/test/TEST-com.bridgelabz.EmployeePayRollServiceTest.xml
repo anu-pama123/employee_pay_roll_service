@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.EmployeePayRollServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-28T16:08:08" hostname="aswin-laptop" time="0.799">
+<testsuite name="com.bridgelabz.EmployeePayRollServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-28T19:14:48" hostname="aswin-laptop" time="1.015">
   <properties/>
-  <testcase name="givenPayRollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue" classname="com.bridgelabz.EmployeePayRollServiceTest" time="0.799"/>
+  <testcase name="givenNewEmployee_WhenAdded_ShouldSyncWithDB" classname="com.bridgelabz.EmployeePayRollServiceTest" time="1.015"/>
   <system-out><![CDATA[Connecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
 Connection is successful..com.mysql.cj.jdbc.ConnectionImpl@1ace57ae
 Connecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
-Connection is successful..com.mysql.cj.jdbc.ConnectionImpl@43fa642
+Connection is successful..com.mysql.cj.jdbc.ConnectionImpl@2144d7fc
+++++++++EmployeePayRollData{id=5, name='Mark', salary=500000.0, start=2021-06-29}
+Connecting to databasejdbc:mysql://localhost:3306/payroll_service?usessl=false
+Connection is successful..com.mysql.cj.jdbc.ConnectionImpl@4230d661
+com.mysql.cj.jdbc.ClientPreparedStatement: select*from employee_pay_roll where name='Mark'
+com.mysql.cj.jdbc.result.ResultSetImpl@2c011a00
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
