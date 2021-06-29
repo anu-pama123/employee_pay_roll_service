@@ -34,14 +34,16 @@ public class EmployeePayRollServiceTest {
     @Test
     public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService();
-        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas
+                                                       (EmployeePayRollService.IoService.DB_IO);
         Assert.assertEquals(3,employeePayRollData.size());
     }
 
     @Test
     public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService();
-        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayRollDatas
+                                                       (EmployeePayRollService.IoService.DB_IO);
         employeePayRollService.updateEmployeeSalary("Terisa", 400000);
         boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Terisa");
         Assert.assertTrue(result);
@@ -53,7 +55,8 @@ public class EmployeePayRollServiceTest {
         employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
         LocalDate startDate = LocalDate.of(2018, 01, 03);
         LocalDate endDate = LocalDate.now();
-        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayrollForDateRange(EmployeePayRollService.IoService.DB_IO, startDate, endDate);
+        List<EmployeePayRollData>employeePayRollData = employeePayRollService.readEmployeePayrollForDateRange
+                                                       (EmployeePayRollService.IoService.DB_IO, startDate, endDate);
         Assert.assertEquals(3, employeePayRollData.size());
     }
     @Test
