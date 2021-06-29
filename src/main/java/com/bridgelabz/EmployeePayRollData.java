@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class EmployeePayRollData {
@@ -9,6 +10,7 @@ public class EmployeePayRollData {
     public String name;
     public double salary;
     public LocalDate start;
+    String gender;
 
     public EmployeePayRollData(Integer id, String name, double salary) {
         this.id = id;
@@ -19,6 +21,11 @@ public class EmployeePayRollData {
     public EmployeePayRollData(Integer id, String name, double salary, LocalDate start) {
         this(id, name, salary);
         this.start = start;
+    }
+
+    public EmployeePayRollData(Integer id, String name, String gender, double salary, LocalDate start) {
+        this(id, name, salary, start);
+        this.gender = gender;
     }
 
     @Override

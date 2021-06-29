@@ -3,6 +3,8 @@ package com.bridgelabz;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -74,5 +76,24 @@ public class EmployeePayRollServiceTest {
         employeePayRollService.addEmployeeToPayRoll("Mark", 500000.00, LocalDate.now(),"M");
         boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Mark");
         Assert.assertTrue(result);
+    }
+
+    @Test
+    public void givenEmployees_WhenAddedToDB_ShouldMatchEmployeeEntries() {
+        EmployeePayRollData[] arrayOfEmps = {
+                new EmployeePayRollData(0, "Jeff Bezos", "M", 10000.0,LocalDate.now()),
+                new EmployeePayRollData(0, "Bill Gates", "M", 20000.0, LocalDate.now()),
+                new EmployeePayRollData(0, "Mark Zuckerberg","M", 30000.0, LocalDate.now()),
+                new EmployeePayRollData(0, "Sunder", "M", 10000.0, LocalDate.now()),
+                new EmployeePayRollData(0, "Mukesh", "M", 20000.0, LocalDate.now()),
+                new EmployeePayRollData(0, "Anil", "M", 30000.0, LocalDate.now())
+        };
+        EmployeePayRollService employeePayRollService = new EmployeePayRollService();
+        employeePayRollService.readEmployeePayRollDatas(EmployeePayRollService.IoService.DB_IO);
+        Instant start = Instant.now();
+        employeePayRollService.addEmployeeToPayRoll(Arrays.asList(arrayOfEmps));
+        Instant end = Instant.now();
+        System.out.println("Duration without Thread: "+ Duration.between(start, end));
+        Assert.assertEquals(6, employeePayRollService.countEntries(EmployeePayRollService.IoService.DB_IO));
     }
 }

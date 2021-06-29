@@ -76,6 +76,17 @@ public class EmployeePayRollService {
         return null;
     }
 
+    public void addEmployeeToPayRoll(List<EmployeePayRollData> employeePayRollDataList) {
+        employeePayRollDataList.forEach(employeePayRollData -> {
+            System.out.println("Employee being added: " + employeePayRollData.name);
+            this.addEmployeeToPayRoll(employeePayRollData.name, employeePayRollData.salary,
+                                      employeePayRollData.start, employeePayRollData.gender);
+            System.out.println("Employee added : " + employeePayRollData.name);
+        });
+        System.out.println(this.employeePayRollList);
+    }
+
+
     public void addEmployeeToPayRoll(String name, double salary, LocalDate start, String gender) {
         employeePayRollList.add(employeePayRollDBService.addEmployeeToPayRoll(name, salary, start, gender));
     }
@@ -96,7 +107,7 @@ public class EmployeePayRollService {
     public long countEntries (IoService ioService) {
         if (ioService.equals(IoService.FILE_IO))
             return new EmployeePayRollFileIOService().countEntries();
-            return 0;
+            return employeePayRollList.size();
     }
 
     public long readEmployeePayRollData (IoService ioService) {
